@@ -1,0 +1,46 @@
+HEADER:
+Name     adr_simple ;
+PartNo   01 ;
+Date     24.07.2022 ;
+Revision 02 ;
+Designer wkla ;
+Company  nn ;
+Assembly None ;
+Location  ;
+Device   G16V8 ;
+
+PLD:
+/* *************** INPUT PINS *********************/
+PIN 1   =  A12; 
+PIN 2   =  A13;
+PIN 3   =  A14;
+PIN 4   =  A15;
+PIN 9   =  PHI2;
+
+/* *************** OUTPUT PINS *********************/
+PIN 12   =  CSRAM;
+PIN 13   =  CSHIROM;
+PIN 15   =  CSIO;
+
+/* *************** LOGIC *********************/
+
+/* RAM */
+CSRAM = A15 # !PHI2;
+
+/* 8kb of ROM */
+CSHIROM = !(A15 & A14 & A13);
+
+/* IO */
+CSIO= !(A15 & A14 & !A13 & A12);
+
+SIMULATOR:
+/* Starting Test description */
+ORDER: A15, A14, A13, A12, PHI2, CSRAM, CSHIROM, CSIO; 
+
+VECTORS:
+0 X X X 0 H H H 
+0 X X X 1 L H H 
+1 0 X X X H H H 
+1 1 0 0 X H H H 
+1 1 0 1 X H H L 
+1 1 1 X X H L H 

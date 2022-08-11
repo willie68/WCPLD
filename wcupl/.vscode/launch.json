@@ -1,0 +1,27 @@
+{
+    // Verwendet IntelliSense zum Ermitteln möglicher Attribute.
+    // Zeigen Sie auf vorhandene Attribute, um die zugehörigen Beschreibungen anzuzeigen.
+    // Weitere Informationen finden Sie unter https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "wcupl",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/cmd/main.go",
+            "cwd" : "${workspaceFolder}",
+            "output": "debug",
+            "env": {
+                "GRAYLOGHOST":"127.0.0.1", 
+                "GRAYLOGPORT": "12201",
+                "CUPL_HOME" : "H:\\Wincupl\\Shared",
+                "LIBCUPL" : "H:\\Wincupl\\Shared\\Atmel.dl",
+            },
+            "args": [
+                "-jaxfsl",
+                "./test/adr_simple.wpld",
+            ]
+        }
+    ]
+}

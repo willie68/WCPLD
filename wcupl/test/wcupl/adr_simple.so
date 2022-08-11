@@ -1,0 +1,36 @@
+CSIM(WM): CUPL Simulation Program
+Version 5.0a Serial# MW-10400000
+Copyright (c) 1983, 1998 Logical Devices, Inc.
+CREATED Thu Aug 04 10:19:57 2022
+
+LISTING FOR SIMULATION FILE: adr_simple.si
+
+   1: Name     adr_simple ;
+   2: PartNo   01 ;
+   3: Date     24.07.2022 ;
+   4: Revision 02 ;
+   5: Designer wkla ;
+   6: Company  nn ;
+   7: Assembly None ;
+   8: Location  ;
+   9: Device   G16V8 ;
+  10: 
+  11: /* Starting Test description */
+  12: ORDER: A15, A14, A13, A12, PHI2, CSRAM, CSHIROM, CSIO; 
+  13: 
+
+=================
+            C    
+            S    
+           CH    
+          PSIC   
+      AAAAHRRS   
+      1111IAOI   
+      54322MMO   
+=================
+0001: 0XXX0HHH
+0002: 0XXX1LHH
+0003: 10XXXHHH
+0004: 1100XHHH
+0005: 1101XHHL
+0006: 111XXHLH

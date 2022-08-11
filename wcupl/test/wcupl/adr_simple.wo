@@ -1,0 +1,20 @@
+#WAVEFORM
+#H Name     adr_simple ;
+#H PartNo   01 ;
+#H Date     24.07.2022 ;
+#H Revision 02 ;
+#H Designer wkla ;
+#H Company  nn ;
+#H Assembly None ;
+#H Location  ;
+#H Device   G16V8 ;
+#H 
+#H /* Starting Test description */
+#H ORDER: A15, A14, A13, A12, PHI2, CSRAM, CSHIROM, CSIO; 
+#H 
+#V 0001 0XXX0HHH
+#V 0002 0XXX1LHH
+#V 0003 10XXXHHH
+#V 0004 1100XHHH
+#V 0005 1101XHHL
+#V 0006 111XXHLH
