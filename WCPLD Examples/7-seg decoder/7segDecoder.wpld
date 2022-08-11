@@ -1,5 +1,5 @@
 header:
-Name     7segDecoder ;
+Name     {{filename}} ;
 PartNo   00 ;
 Date     8/6/2020 ;
 Revision 02 ;
@@ -50,7 +50,7 @@ PIN  13 = !G;
 /* [A,B,C,D,E,F,G].oe = ENABLE; */
 
 FIELD INPUT = [I0,I1,I2,I3]; /* Defines input array */
-FIELD OUTPUT = [A.d,B.d,C.d,D.d,E.d,F.d,G.d]; /* Defines output array */
+FIELD OUTPUT = [A,B,C,D,E,F,G]; /* Defines output array */
 TABLE INPUT => OUTPUT
 {
   'b'0000 => 'b'0000001;
