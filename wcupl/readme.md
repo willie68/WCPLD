@@ -8,8 +8,8 @@ The tool itself doesn't do much. Any arguments are passed directly to CUPL.
   `{{filename}}`: is the filename without wpld extension
   `{{date}}`: is the actual date in format yyyy-mm-dd (ISO8601)
 - it will create a subfolder called wcupl and copy the wpld into it. 
-- From this wpld files, `header:` and `pld:` are merged into one #.pld file and `header`: and `simulator:` part into the #.si file.  The section names `header, pld, simulator` are case insensitive, so header and HEADER means the same.
-- Then cupl is started from the same directory where wcupl is located. Or if present using environment variable `CUPL_HOME` for trying to find cupl.exe. (So sorry, this version is only for windows users)
+- From this wpld files, `header:` and `pld:` are merged into one #.pld file and `header`: and `simulator:` part into the #.si file.  The section names `header, pld, simulator` are case insensitive, so `header`, `HEADER` or even `hEaDeR` means the same.
+- Then cupl is started from the same directory where wcupl is located. Or, if present, using environment variable `CUPL_HOME` for trying to find cupl.exe. (So sorry, this version is only for windows users)
 
 
 
