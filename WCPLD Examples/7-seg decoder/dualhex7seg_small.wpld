@@ -1,0 +1,101 @@
+/* don't use this, it's not working */
+header:
+Name     {{filename}} ;
+PartNo   1 ;
+Date     08.08.2022 ;
+Revision 01 ;
+Designer WKLA ;
+Company  MCS ;
+Assembly None ;
+Location  ;
+Device   g16v8 ;
+
+/*
+  Dual Hex to 7-segment LED display converter
+  Common Anode Variant
+
+      +----\/----+
+  CLK | 1     20 | Vcc
+  AI0 | 2     19 | OEAB
+  AI1 | 3     18 | Segment E
+  AI2 | 4     17 | Segment B
+  AI3 | 5     16 | Segment C
+  BI0 | 6     15 | Segment A
+  BI1 | 7     14 | Segment D
+  BI2 | 8     13 | Segment F
+  BI3 | 9     12 | Segment G
+  GND | 10    11 | nc
+      +----------+
+
+  This is designed for the Atmel ATF16V8
+
+*/
+
+pld:
+/* *************** INPUT PINS *********************/
+PIN  1 = CLK;
+PIN  2 = AIA;
+PIN  3 = AIB;
+PIN  4 = AIC;
+PIN  5 = AID;
+PIN  6 = BIA;
+PIN  7 = BIB;
+PIN  8 = BIC;
+PIN  9 = BID;
+
+/* *************** OUTPUT PINS *********************/
+PIN  19 = OEAB ; 
+PIN  18 = E ;
+PIN  17 = B ;
+PIN  16 = C ;
+PIN  15 = A ;
+PIN  14 = D ;
+PIN  13 = F ;
+PIN  12 = G ;
+/* ************* Declarations **********************/
+
+FIELD AADD = [CLK,AID,AIC,AIB,AIA] ;
+FIELD BADD = [CLK,BID,BIC,BIB,BIA] ;
+FIELD OUTPUT = [A,B,C,D,E,F,G] ;
+
+/********* EQUATIONS ****************/
+OEAB = CLK;
+/* 7-Segment A */
+TABLE AADD => OUTPUT {
+'b'00000=>'b'11111101 ; /* 0 */ 
+'b'00001=>'b'01100001 ; /* 1 */
+'b'00010=>'b'11011011 ; /* 2 */
+'b'00011=>'b'11110011 ; /* 3 */
+'b'00100=>'b'01100111 ; /* 4 */
+'b'00101=>'b'10110111 ; /* 5 */
+'b'00110=>'b'10111111 ; /* 6 */
+'b'00111=>'b'11100001 ; /* 7 */
+'b'01000=>'b'11111111 ; /* 8 */
+'b'01001=>'b'11100111 ; /* 9 */
+'b'01010=>'b'11101111 ; /* A */
+'b'01011=>'b'00111111 ; /* B */
+'b'01100=>'b'10011101 ; /* C */
+'b'01101=>'b'01111011 ; /* D */
+'b'01110=>'b'10011111 ; /* E */
+'b'01111=>'b'10001111 ; /* F */
+}
+
+/* 7-Segment B */
+TABLE BADD => OUTPUT {
+'b'10000=>'b'00000011 ; /* 0 */
+'b'10001=>'b'10011111 ; /* 1 */
+'b'10010=>'b'00100101 ; /* 2 */
+'b'10011=>'b'00001101 ; /* 3 */
+'b'10100=>'b'10011001 ; /* 4 */
+'b'10101=>'b'01001001 ; /* 5 */
+'b'10110=>'b'01000001 ; /* 6 */
+'b'10111=>'b'00011111 ; /* 7 */
+'b'11000=>'b'00000001 ; /* 8 */
+'b'11001=>'b'00011001 ; /* 9 */
+'b'11010=>'b'00010001 ; /* A */
+'b'11011=>'b'11000001 ; /* B */
+'b'11100=>'b'01100011 ; /* C */
+'b'11101=>'b'10000101 ; /* D */
+'b'11110=>'b'01100001 ; /* E */
+'b'11111=>'b'01110001 ; /* F */
+}
