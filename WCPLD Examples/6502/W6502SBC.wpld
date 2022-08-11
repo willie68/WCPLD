@@ -1,0 +1,77 @@
+header:
+Name     W6502SBC_16 ;
+PartNo   01 ;
+Date     05.08.2022 ;
+Revision 01 ;
+Designer wkla ;
+Company  nn ;
+Assembly None ;
+Location  ;
+Device   G22V10 ;
+
+pld:
+/* *************** INPUT PINS *********************/
+PIN 1   =  PHI2; 
+PIN 2   =  A15;
+PIN 3   =  A14;
+PIN 4   =  A13;
+PIN 5 	=  A12;
+PIN 6 	=  A11;
+PIN 7 	=  A10;
+PIN 8 	=  A9;
+PIN 9   =  A8;
+//PIN 10  =  nn;
+PIN 11  =  RW;
+//PIN 13 	= nn; 
+
+/* *************** OUTPUT PINS *********************/
+PIN 23   =  CSRAM;
+PIN 22   =  CSHIROM;
+PIN 21   =  CSEXTROM;
+PIN 20   =  CSIO;
+PIN 19   =  CSIO0;
+PIN 18   =  CSIO1;
+PIN 17   =  CSIO2;
+PIN 16   =  CSIO3;
+PIN 15   =  MWR;  // /WR only for RAM
+PIN 14   =  MRD;  // goes to all /OE of ROM and RAM
+
+FIELD Addr = [A15..A8];
+
+CSRAM = ! (Addr:[0000..7FFF]); // 32KB
+CSIO = ! (Addr:[B000..BFFF]); // 4KB
+CSIO0 = ! (Addr:[B000..B0FF]);
+CSIO1 = ! (Addr:[B100..B1FF]);
+CSIO2 = ! (Addr:[B200..B2FF]);
+CSIO3 = ! (Addr:[B300..B3FF]);
+CSEXTROM = ! (Addr:[8000..AFFF]); // 12KB
+CSROM = ! (Addr:[C000..FFFF]);  // 16KB
+
+MWR = ! (PHI2 & !RW);
+MRD = ! (PHI2 & RW);
+
+simulator:
+ORDER: A15, A14, A13, A12, A11, A10, A9, A8, RW, PHI2, CSRAM, CSIO, CSIO0, CSIO1, CSIO2, CSIO3, CSEXTROM, CSHIROM, MWR, MRD; 
+
+VECTORS:
+/* RAM */
+0 X X X X X X X 0 0 L H H H H H H H H H
+0 X X X X X X X 0 1 L H H H H H H H L H
+/* IO */
+1 0 1 1 0 0 0 0 X X H L L H H H H H X X
+1 0 1 1 0 0 0 1 X X H L H L H H H H X X
+1 0 1 1 0 0 1 0 X X H L H H L H H H X X
+1 0 1 1 0 0 1 1 X X H L H H H L H H X X
+1 0 1 1 0 1 X X X X H L H H H H H H X X
+1 0 1 1 1 X X X X X H L H H H H H H X X
+
+/* 8000-AFFF external Rom */ 
+1 0 0 0 X X X X X X H H H H H H L H X X
+1 0 0 1 X X X X X X H H H H H H L H X X
+1 0 1 0 X X X X X X H H H H H H L H X X
+
+/* ROM */
+1 1 X X X X X X 1 0 H H H H H H H L H H
+1 1 X X X X X X 1 1 H H H H H H H L H L
+1 1 X X X X X X 0 0 H H H H H H H L H H
+1 1 X X X X X X 0 1 H H H H H H H L L H

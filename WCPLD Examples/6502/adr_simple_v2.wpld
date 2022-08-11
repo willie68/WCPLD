@@ -1,0 +1,79 @@
+header:
+Name     adr_simple ;
+PartNo   01 ;
+Date     24.07.2022 ;
+Revision 03 ;
+Designer wkla ;
+Company  nn ;
+Assembly None ;
+Location  ;
+Device   G16V8 ;
+
+pld:
+/* *************** INPUT PINS *********************/
+PIN [1..8]   =  [A15..A8]; 
+PIN 9   =  PHI2;
+PIN 11  = RW;
+
+/* *************** OUTPUT PINS *********************/
+PIN 12   =  CSRAM;
+PIN 13   =  CSHIROM;
+PIN 14   =  CSEXTROM;
+PIN 15   =  CSIO;
+PIN 16   =  MWR;
+PIN 17   =  CSIO2;
+PIN 18   =  CSIO1;
+PIN 19   =  CSIO0;
+/* *************** LOGIC *********************/
+
+FIELD Addr = [A15..A8];
+
+/* RAM 32kb */
+CSRAM = ! (Addr:[0000..7FFF]); 
+
+/* IO 4kb */
+CSIO = ! (Addr:[B000..BFFF]); 
+CSIO0 = ! (Addr:[B000..B0FF]);
+CSIO1 = ! (Addr:[B100..B1FF]);
+CSIO2 = ! (Addr:[B200..B2FF]);
+
+/* 12kb of external ROM */
+CSEXTROM = ! (Addr:[8000..AFFF]); 
+
+/* 16kb of ROM */
+CSHIROM = ! (Addr:[C000..FFFF]);  
+
+MWR = ! (PHI2 & !RW);
+
+simulator:
+ORDER: A15, A14, A13, A12, A11, A10, A9, A8, RW, PHI2, CSRAM, MWR, CSIO, CSIO0, CSIO1, CSIO2, CSEXTROM, CSHIROM; 
+
+VECTORS:
+/* testing /RD /WR */
+X X X X X X X X 0 0 X H X X X X X X 
+X X X X X X X X 0 1 X L X X X X X X 
+X X X X X X X X 1 0 X H X X X X X X 
+X X X X X X X X 1 1 X H X X X X X X 
+
+/* internal RAM */
+0 X X X X X X X X X L X H H H H H H 
+
+/* 8000-AFFF external Rom */ 
+1 0 0 0 X X X X X X H X H H H H L H 
+1 0 0 1 X X X X X X H X H H H H L H 
+1 0 1 0 X X X X X X H X H H H H L H 
+
+/* IO */ 
+/* CSIO0 */
+1 0 1 1 0 0 0 0 X X H X L L H H H H
+/* CSIO1 */
+1 0 1 1 0 0 0 1 X X H X L H L H H H
+/* CSIO2 */
+1 0 1 1 0 0 1 0 X X H X L H H L H H
+
+/* nicht direkt benutzt */
+1 0 1 1 0 1 X X X X H X L H H H H H
+1 0 1 1 1 X X X X X H X L H H H H H
+
+/* ROM */
+1 1 X X X X X X X X H X H H H H H L

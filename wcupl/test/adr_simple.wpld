@@ -1,7 +1,7 @@
 HEADER:
-Name     adr_simple ;
+Name     {{filename}} ;
 PartNo   01 ;
-Date     24.07.2022 ;
+Date     {{date}} ;
 Revision 02 ;
 Designer wkla ;
 Company  nn ;

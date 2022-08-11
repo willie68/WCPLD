@@ -1,0 +1,93 @@
+header:
+Name     7segDecoder ;
+PartNo   00 ;
+Date     8/6/2020 ;
+Revision 02 ;
+Designer Peter Murray ;
+Company  N/A ;
+Assembly None ;
+Location Right here ;
+Device   g16v8ms ;
+
+/*
+  Hex to 7-segment LED display converter
+  Common Cathode Variant
+
+      +----\/----+
+  CLK | 1     20 | Vcc
+   I0 | 2     19 | Segment A
+   I1 | 3     18 | Segment B
+   I2 | 4     17 | Segment C
+   I3 | 5     16 | Segment D
+  N/C | 6     15 | Segment E
+  N/C | 7     14 | Segment F
+  N/C | 8     13 | Segment G
+  N/C | 9     12 | N/C
+  GND | 10    11 | /OE
+      +----------+
+
+  This is designed for the Atmel ATF16V8B (Digikey: ATF16V8B-15PU-ND )
+
+*/
+pld:
+/* *************** INPUT PINS *********************/
+PIN  1   = CLK;
+PIN  2   =  I0;
+PIN  3   =  I1;
+PIN  4   =  I2;
+PIN  5   =  I3;
+/* PIN 11   =  !ENABLE; */
+
+/* *************** OUTPUT PINS ******************** */
+PIN  19 = !A;
+PIN  18 = !B;
+PIN  17 = !C;
+PIN  16 = !D;
+PIN  15 = !E;
+PIN  14 = !F;
+PIN  13 = !G;
+
+/* [A,B,C,D,E,F,G].oe = ENABLE; */
+
+FIELD INPUT = [I0,I1,I2,I3]; /* Defines input array */
+FIELD OUTPUT = [A.d,B.d,C.d,D.d,E.d,F.d,G.d]; /* Defines output array */
+TABLE INPUT => OUTPUT
+{
+  'b'0000 => 'b'0000001;
+  'b'0001 => 'b'1001111;
+  'b'0010 => 'b'0010010;
+  'b'0011 => 'b'0000110;
+  'b'0100 => 'b'1001100;
+  'b'0101 => 'b'0100100;
+  'b'0110 => 'b'0100000;
+  'b'0111 => 'b'0001111;
+  'b'1000 => 'b'0000000;
+  'b'1001 => 'b'0001100;
+  'b'1010 => 'b'0001000;
+  'b'1011 => 'b'1100000;
+  'b'1100 => 'b'0110001;
+  'b'1101 => 'b'1000010;
+  'b'1110 => 'b'0110000;
+  'b'1111 => 'b'0111000;
+}
+/*
+{
+  'b'0000 => 'b'1111110;
+  'b'0001 => 'b'0110000;
+  'b'0010 => 'b'1101101;
+  'b'0011 => 'b'1111001;
+  'b'0100 => 'b'0110011;
+  'b'0101 => 'b'1011011;
+  'b'0110 => 'b'1011111;
+  'b'0111 => 'b'1110000;
+  'b'1000 => 'b'1111111;
+  'b'1001 => 'b'1110011;
+  'b'1010 => 'b'1110111;
+  'b'1011 => 'b'0011111;
+  'b'1100 => 'b'1001110;
+  'b'1101 => 'b'0111101;
+  'b'1110 => 'b'1001111;
+  'b'1111 => 'b'1000111;
+}
+*/
+simulator:

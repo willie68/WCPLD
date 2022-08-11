@@ -9,9 +9,14 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"log"
+
+	"github.com/aymerick/raymond"
 )
+
+const layoutISO = "2006-01-02"
 
 var (
 	cuplargs []string
@@ -59,11 +64,30 @@ func main() {
 		log.Fatalf("error creating temp dir: %v\n", err)
 	}
 	destfile := filepath.Join(workdir, filepath.Base(file))
-	file, err = copy(file, destfile)
-	if err != nil {
-		log.Fatalf("error copy source file: %v\n", err)
+
+	filename := strings.TrimSuffix(filepath.Base(file), filepath.Ext(file))
+
+	ctx := map[string]string{
+		"filename": filename,
+		"date":     time.Now().Format(layoutISO),
 	}
 
+	b, err := ioutil.ReadFile(file)
+	if err != nil {
+		log.Fatalf("error loading source file: %v\n", err)
+	}
+
+	result, err := raymond.Render(string(b), ctx)
+	if err != nil {
+		log.Fatalf("error render file: %v\n", err)
+	}
+
+	err = ioutil.WriteFile(destfile, []byte(result), 0644)
+	if err != nil {
+		log.Fatalf("error writing file: %v\n", err)
+	}
+
+	file = destfile
 	f, err := os.Open(file)
 	if err != nil {
 		log.Fatalf("error opening file: %v\n", err)

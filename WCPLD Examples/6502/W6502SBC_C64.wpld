@@ -1,0 +1,63 @@
+header:
+Name     W6502SBC_ADR_C64 ;
+PartNo   01 ;
+Date     20.07.2022 ;
+Revision 01 ;
+Designer wkla ;
+Company  nn ;
+Assembly None ;
+Location  ;
+Device   G16V8AS ;
+
+pld:
+/* *************** INPUT PINS *********************/
+PIN 1   =  A12; 
+PIN 2   =  A13;
+PIN 3   =  A14;
+PIN 4   =  A15;
+PIN 5 	=  ALORAM;
+PIN 6 	=  AHIRAM;
+PIN 7 	=  ALOROM;
+PIN 8 	=  AHIROM;
+PIN 9   =  PHI2;
+PIN 11  =  NOLOROM;
+
+/* *************** OUTPUT PINS *********************/
+PIN 12   =  CSRAM;
+PIN 13   =  CSHIROM;
+PIN 14   =  CSLOROM;
+PIN 15   =  CSIO;
+PIN 16   =  LORAM;
+PIN 17   =  LOROM;
+PIN 18   =  HIRAM;
+PIN 19   =  HIROM;
+
+ 
+CSRAM = (A15 & !A14 & !A13 & !ALORAM) # (A15 & !A14 & A13 & NOLOROM) # (A15 & A14 & !A13 & !A12 & !AHIRAM) # (A15 & A14 & !A13 & A12) # (A15 & A14 & A13) # !PHI2;
+CSHIROM = !(A15 & A14 & A13 & AHIROM);
+CSLOROM = !(A15 & !A14 & A13 & ALOROM & NOLOROM);
+CSIO= !(A15 & A14 & !A13 & A12);
+LORAM= !(A15 & !A14 & !A13 & !ALORAM);
+LOROM= !(A15 & !A14 & A13 & !ALOROM & NOLOROM);
+HIRAM= !(A15 & A14 & !A13 & !A12 & !AHIRAM);
+HIROM= !(A15 & A14 & A13 & !AHIROM);
+
+simulator:
+ORDER: A15, A14, A13, A12, ALORAM, AHIRAM, ALOROM, AHIROM, NOLOROM, PHI2, CSRAM, CSHIROM, CSLOROM, CSIO, LORAM, LOROM, HIRAM, HIROM; 
+
+VECTORS:
+0 X X X X X X X X 0 H H H H H H H H 
+0 X X X X X X X X 1 L H H H H H H H 
+1 0 0 X 1 X X X X 0 H H H H H H H H 
+1 0 0 X 1 X X X X 1 L H H H H H H H 
+1 0 0 X 0 X X X X X H H H H L H H H 
+1 0 1 X X X 1 X 1 X H H L H H H H H 
+1 0 1 X X X 0 X 1 X H H H H H L H H 
+1 0 1 X X X X X 0 0 H H H H H H H H 
+1 0 1 X X X X X 0 1 L H H H H H H H 
+1 1 0 0 X 1 X X X 0 H H H H H H H H 
+1 1 0 0 X 1 X X X 1 L H H H H H H H 
+1 1 0 0 X 0 X X X X H H H H H H L H 
+1 1 0 1 X X X X X X H H H L H H H H 
+1 1 1 X X X X 1 X X H L H H H H H H 
+1 1 1 X X X X 0 X X H H H H H H H L 

@@ -1,0 +1,58 @@
+header:
+Name     7segDecoder_latch ;
+PartNo   00 ;
+Date     8/6/2020 ;
+Revision 02 ;
+Designer Peter Murray ;
+Company  N/A ;
+Assembly None ;
+Location Right here ;
+Device   g16v8ms ;
+
+/*
+  Hex to 7-segment LED display converter
+  Common Cathode Variant
+
+      +----\/----+
+  CLK | 1     20 | Vcc
+   I0 | 2     19 | Segment A
+   I1 | 3     18 | Segment B
+   I2 | 4     17 | Segment C
+   I3 | 5     16 | Segment D
+  N/C | 6     15 | Segment E
+  N/C | 7     14 | Segment F
+  N/C | 8     13 | Segment G
+  N/C | 9     12 | N/C
+  GND | 10    11 | /OE
+      +----------+
+
+  This is designed for the Atmel ATF16V8B (Digikey: ATF16V8B-15PU-ND )
+
+*/
+pld:
+/* *************** INPUT PINS *********************/
+PIN  1   = CLK;
+PIN  2   =  I0;
+PIN  3   =  I1;
+PIN  4   =  I2;
+PIN  5   =  I3;
+/* PIN 11   =  !ENABLE; */
+
+/* *************** OUTPUT PINS ******************** */
+PIN  19 = !A;
+PIN  18 = !B;
+PIN  17 = !C;
+PIN  16 = !D;
+PIN  15 = !E;
+PIN  14 = !F;
+PIN  13 = !G;
+
+/* [A,B,C,D,E,F,G].oe = ENABLE; */
+
+A.d = (!I0 & !I1 & !I2 & I3) # (!I0 & I1 & !I2 & !I3) # (I0 & !I1 & I2 & I3) # (!I0 & I1 & !I2 & !I3);
+B.d = (!I0 & I1 & !I2 & I3) # (!I0 & I1 & I2 & !I3) # (I0 & !I1 & I2 & I3) # (I0 & I1 & !I2 & !I3) # (I0 & I1 & I2 & !I3) # (I0 & I1 & I2 & I3);
+C.d = (!I0 & !I1 & I2 & !I3) # (I0 & I1 & !I2 & !I3) # (I0 & I1 & I2 & !I3) # (I0 & I1 & I2 & I3);
+D.d = (!I0 & !I1 & !I2 & I3) # (!I0 & I1 & !I2 & !I3) # (!I0 & I1 & I2 & I3)# (I0 & !I1 & !I2 & I3) # (I0 & !I1 & I2 & !I3) # (I0 & I1 & I2 & I3);
+E.d = (!I0 & !I1 & !I2 & I3) # (!I0 & !I1 & I2 & I3) # (!I0 & I1 & !I2 & !I3) # (!I0 & I1 & !I2 & I3) # (!I0 & I1 & I2 & I3) # (I0 & !I1 & !I2 & I3);
+F.d = (!I0 & !I1 & !I2 & I3) # (!I0 & !I1 & I2 & !I3) # (!I0 & !I1 & I2 & I3) # (!I0 & I1 & I2 & I3) # (I0 & I1 & !I2 & I3);
+G.d = (!I0 & !I1 & !I2 & !I3) # (!I0 & !I1 & !I2 & I3) # (!I0 & I1 & I2 & I3) # (I0 & I1 & !I2 & !I3) ;
